@@ -1,0 +1,5 @@
+{
+  "statusCode": 200,
+  "subject": "Contacts Report",
+  "message": "To download the contacts report please use the folowing link https://jrx-public2.s3.amazonaws.com/39ac5366-1746-4cf9-ae8e-7f59ad3259ae.csv?AWSAccessKeyId=AKIAWUMONL6QGOAI42HW&Expires=1621743804&Signature=Sn%2FdOb9%2FE6cUWQnz%2BNH3ot3IpH8%3D"
+}

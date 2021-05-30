@@ -6,12 +6,15 @@
   "repository": "TODO",
   "author": "SAM CLI",
   "license": "MIT",
-  "dependencies": {},
   "scripts": {
     "test": "mocha tests/unit/"
   },
   "devDependencies": {
+    "aws-sdk": "^2.918.0",
     "chai": "^4.2.0",
     "mocha": "^8.2.1"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0"
   }
 }

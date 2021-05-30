@@ -1,0 +1,9 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "aws-step-functions-contacts-report-demo"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-thmjhcmiqi80"
+s3_prefix = "aws-step-functions-contacts-report-demo"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
