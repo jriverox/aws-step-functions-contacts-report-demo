@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  aws-step-functions-contacts-report-demo
+
+  Sample SAM Template for aws-step-functions-contacts-report-demo
+
+Resources:
+  ContactsReportStateMachine:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: statemachine/contacts_report.asl.json
+      DefinitionSubstitutions:
+        DataLoaderFunctionArn: !GetAtt DataLoaderFunction.Arn
+        ReportGeneratorFunctionArn: !GetAtt ReportGeneratorFunction.Arn
+        NotificationSenderFunctionArn: !GetAtt NotificationSenderFunction.Arn
+      Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+        - LambdaInvokePolicy:
+            FunctionName: !Ref DataLoaderFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref ReportGeneratorFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref NotificationSenderFunction
+  DataLoaderFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/data-loader/
+      Handler: index.handler
+      Runtime: nodejs14.x
+      Timeout: 60
+  ReportGeneratorFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/report-generator/
+      Handler: index.handler
+      Runtime: nodejs14.x
+      Timeout: 60
+  NotificationSenderFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/notification-sender/
+      Handler: index.handler
+      Runtime: nodejs14.x
+      Timeout: 60
+
+Outputs:
+  # ContactsReportStateMachineHourlyTradingSchedule is an implicit Schedule event rule created out of Events key under Serverless::StateMachine
+  # Find out more about other implicit resources you can reference within SAM
+  # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-generated-resources.html
+  ContactsReportStateMachineArn:
+    Description: "Stock Trading state machine ARN"
+    Value: !Ref ContactsReportStateMachine
+  ContactsReportStateMachineRole:
+    Description: "IAM Role created for Stock Trading state machine based on the specified SAM Policy Templates"
+    Value: !GetAtt ContactsReportStateMachineRole.Arn
